@@ -1,0 +1,23 @@
+
+body {
+    background-color: lightblue;
+}
+
+h1 {
+    color: white;
+    text-align: center;
+}
+
+p {
+    font-family: verdana;
+    font-size: 20px;
+}
+
+div.mem1 {
+    content:url('https://storage.googleapis.com/gooviecloud2018/mem1.jpeg')
+}
+
+div.mem2 {
+    content:url('https://storage.googleapis.com/gooviecloud2018/mem2.jpg')
+}
+
