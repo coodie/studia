@@ -1,0 +1,26 @@
+- hosts: lbservers
+  become: yes
+  vars:
+    lbpath: /etc/nginx/conf.d/load-balancer.conf
+  tasks:
+    - name: Ensure nginx is present or install it
+      apt: name=nginx state=present update_cache=true
+    - name: Copy load balancer config
+      copy:
+          src: load-balancer/load-balancer.conf
+          dest: "{{ lbpath }}"
+    - name: Add application servers to load-balancer.conf
+      lineinfile:
+          path: "{{ lbpath }}"
+          insertafter: "^upstream backend"
+          line:  server {{ item }} ;
+      with_items: "{{ groups['appservers'] }}"
+    - name: Remove default link
+      file:
+          state: absent
+          path: /etc/nginx/sites-enabled/default
+    - name: Restart nginx server
+      service:
+          name: nginx
+          state: restarted
+

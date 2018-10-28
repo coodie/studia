@@ -1,0 +1,18 @@
+- hosts: appservers
+  become: yes
+  tasks:
+    - name: Ensure apache is present or install it
+      apt: name=apache2 state=present update_cache=true
+    - name: Install rsync
+      apt: name=rsync state=present
+    - name: Install website
+      synchronize: 
+        src: site/
+        dest: /var/www/html
+        rsync_opts: --chown=www-data
+        delete: yes
+      tags: [website]
+    - name: Restart apache server
+      service:
+          name: apache2
+          state: restarted

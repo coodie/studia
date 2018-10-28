@@ -1,0 +1,9 @@
+[appservers]
+35.198.149.11 
+35.198.66.193
+
+[lbservers]
+35.231.238.102 
+
+[bastionserver]
+
