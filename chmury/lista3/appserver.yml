@@ -3,15 +3,24 @@
   tasks:
     - name: Ensure apache is present or install it
       apt: name=apache2 state=present update_cache=true
-    - name: Install rsync
-      apt: name=rsync state=present
     - name: Install website
-      synchronize: 
+      copy:
         src: site/
         dest: /var/www/html
-        rsync_opts: --chown=www-data
-        delete: yes
       tags: [website]
+
+      #TODO, this is more elegant when done using rsync
+      #but fails because of some ssh issues
+      #- name: Install rsync
+      #- apt: name=rsync state=present
+      #- name: Install website
+      #- synchronize: 
+      #-   src: site/
+      #-   dest: /var/www/html
+      #-   rsync_opts: --chown=www-data
+      #-   delete: yes
+      #-   use_ssh_args: yes
+
     - name: Restart apache server
       service:
           name: apache2
